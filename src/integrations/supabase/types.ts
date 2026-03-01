@@ -103,10 +103,13 @@ export type Database = {
         Row: {
           adresse: string | null
           code_eglise: string | null
+          contact: string | null
+          couverture_url: string | null
           created_at: string
           denomination: string | null
           description: string | null
           email: string | null
+          facebook: string | null
           id: string
           logo_url: string | null
           nom: string
@@ -115,15 +118,20 @@ export type Database = {
           site_web: string | null
           telephone: string | null
           updated_at: string
+          verset_clef: string | null
           ville: string | null
+          whatsapp: string | null
         }
         Insert: {
           adresse?: string | null
           code_eglise?: string | null
+          contact?: string | null
+          couverture_url?: string | null
           created_at?: string
           denomination?: string | null
           description?: string | null
           email?: string | null
+          facebook?: string | null
           id?: string
           logo_url?: string | null
           nom: string
@@ -132,15 +140,20 @@ export type Database = {
           site_web?: string | null
           telephone?: string | null
           updated_at?: string
+          verset_clef?: string | null
           ville?: string | null
+          whatsapp?: string | null
         }
         Update: {
           adresse?: string | null
           code_eglise?: string | null
+          contact?: string | null
+          couverture_url?: string | null
           created_at?: string
           denomination?: string | null
           description?: string | null
           email?: string | null
+          facebook?: string | null
           id?: string
           logo_url?: string | null
           nom?: string
@@ -149,7 +162,9 @@ export type Database = {
           site_web?: string | null
           telephone?: string | null
           updated_at?: string
+          verset_clef?: string | null
           ville?: string | null
+          whatsapp?: string | null
         }
         Relationships: []
       }
@@ -166,6 +181,7 @@ export type Database = {
           reference: string | null
           statut: string | null
           type: string | null
+          type_don: string | null
           user_id: string | null
         }
         Insert: {
@@ -180,6 +196,7 @@ export type Database = {
           reference?: string | null
           statut?: string | null
           type?: string | null
+          type_don?: string | null
           user_id?: string | null
         }
         Update: {
@@ -194,6 +211,7 @@ export type Database = {
           reference?: string | null
           statut?: string | null
           type?: string | null
+          type_don?: string | null
           user_id?: string | null
         }
         Relationships: [
@@ -213,6 +231,82 @@ export type Database = {
           },
         ]
       }
+      kb_documents: {
+        Row: {
+          chunk_count: number | null
+          church_id: string
+          content: string | null
+          created_at: string
+          id: string
+          source_type: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          chunk_count?: number | null
+          church_id: string
+          content?: string | null
+          created_at?: string
+          id?: string
+          source_type?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          chunk_count?: number | null
+          church_id?: string
+          content?: string | null
+          created_at?: string
+          id?: string
+          source_type?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_documents_church_id_fkey"
+            columns: ["church_id"]
+            isOneToOne: false
+            referencedRelation: "churches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kb_faq: {
+        Row: {
+          answer: string
+          church_id: string
+          created_at: string
+          id: string
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          church_id: string
+          created_at?: string
+          id?: string
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          church_id?: string
+          created_at?: string
+          id?: string
+          question?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_faq_church_id_fkey"
+            columns: ["church_id"]
+            isOneToOne: false
+            referencedRelation: "churches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       members: {
         Row: {
           adresse: string | null
@@ -221,11 +315,13 @@ export type Database = {
           date_adhesion: string | null
           date_naissance: string | null
           email: string | null
+          groupe_departement: string | null
           id: string
           nom: string
           notes: string | null
           photo_url: string | null
           prenom: string | null
+          sexe: string | null
           statut: string | null
           telephone: string | null
           updated_at: string
@@ -238,11 +334,13 @@ export type Database = {
           date_adhesion?: string | null
           date_naissance?: string | null
           email?: string | null
+          groupe_departement?: string | null
           id?: string
           nom: string
           notes?: string | null
           photo_url?: string | null
           prenom?: string | null
+          sexe?: string | null
           statut?: string | null
           telephone?: string | null
           updated_at?: string
@@ -255,11 +353,13 @@ export type Database = {
           date_adhesion?: string | null
           date_naissance?: string | null
           email?: string | null
+          groupe_departement?: string | null
           id?: string
           nom?: string
           notes?: string | null
           photo_url?: string | null
           prenom?: string | null
+          sexe?: string | null
           statut?: string | null
           telephone?: string | null
           updated_at?: string
@@ -278,26 +378,41 @@ export type Database = {
       messages: {
         Row: {
           church_id: string
+          content: string | null
           contenu: string
           created_at: string
           id: string
+          read: boolean | null
+          recipient_role: Database["public"]["Enums"]["app_role"] | null
+          recipient_type: string | null
           sender_id: string | null
+          subject: string | null
           type: string | null
         }
         Insert: {
           church_id: string
+          content?: string | null
           contenu: string
           created_at?: string
           id?: string
+          read?: boolean | null
+          recipient_role?: Database["public"]["Enums"]["app_role"] | null
+          recipient_type?: string | null
           sender_id?: string | null
+          subject?: string | null
           type?: string | null
         }
         Update: {
           church_id?: string
+          content?: string | null
           contenu?: string
           created_at?: string
           id?: string
+          read?: boolean | null
+          recipient_role?: Database["public"]["Enums"]["app_role"] | null
+          recipient_type?: string | null
           sender_id?: string | null
+          subject?: string | null
           type?: string | null
         }
         Relationships: [
@@ -392,30 +507,39 @@ export type Database = {
       notifications: {
         Row: {
           church_id: string | null
+          content: string | null
           created_at: string
           est_lue: boolean | null
           id: string
           message: string | null
+          read: boolean | null
+          title: string | null
           titre: string
           type: string | null
           user_id: string
         }
         Insert: {
           church_id?: string | null
+          content?: string | null
           created_at?: string
           est_lue?: boolean | null
           id?: string
           message?: string | null
+          read?: boolean | null
+          title?: string | null
           titre: string
           type?: string | null
           user_id: string
         }
         Update: {
           church_id?: string | null
+          content?: string | null
           created_at?: string
           est_lue?: boolean | null
           id?: string
           message?: string | null
+          read?: boolean | null
+          title?: string | null
           titre?: string
           type?: string | null
           user_id?: string
@@ -432,38 +556,53 @@ export type Database = {
       }
       prayer_requests: {
         Row: {
+          answered_at: string | null
           church_id: string
           created_at: string
+          date_demande: string | null
           description: string | null
           est_anonyme: boolean | null
           id: string
+          membre_id: string | null
           nombre_prieres: number | null
+          reponse: string | null
           statut: string | null
           sujet: string
+          texte: string | null
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          answered_at?: string | null
           church_id: string
           created_at?: string
+          date_demande?: string | null
           description?: string | null
           est_anonyme?: boolean | null
           id?: string
+          membre_id?: string | null
           nombre_prieres?: number | null
+          reponse?: string | null
           statut?: string | null
           sujet: string
+          texte?: string | null
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          answered_at?: string | null
           church_id?: string
           created_at?: string
+          date_demande?: string | null
           description?: string | null
           est_anonyme?: boolean | null
           id?: string
+          membre_id?: string | null
           nombre_prieres?: number | null
+          reponse?: string | null
           statut?: string | null
           sujet?: string
+          texte?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -473,6 +612,13 @@ export type Database = {
             columns: ["church_id"]
             isOneToOne: false
             referencedRelation: "churches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prayer_requests_membre_id_fkey"
+            columns: ["membre_id"]
+            isOneToOne: false
+            referencedRelation: "members"
             referencedColumns: ["id"]
           },
         ]
